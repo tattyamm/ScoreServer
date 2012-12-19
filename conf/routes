@@ -5,5 +5,16 @@
 # Home page
 GET     /                           controllers.Application.index
 
+# Ranking
+GET     /ranking/weekley            controllers.RankingController.getRankingWeekley
+GET     /ranking/today              controllers.RankingController.getRankingToday
+GET     /ranking/total              controllers.RankingController.getRankingTotal
+
+# User
+POST    /user/register              controllers.ScoreController.register
+
+# Score
+POST    /score/register             controllers.UserController.register
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
