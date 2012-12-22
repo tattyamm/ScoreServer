@@ -14,9 +14,9 @@ import anorm.SqlParser._
  */
 case class User(
                  id: Long,
-                 //uid: String,
-                 screenName: String
-                 //createdAt: String
+                 uid: String,
+                 screenName: String,
+                 createdAt: String
                  )
 
 object User {
@@ -26,10 +26,12 @@ object User {
   }
 
 //  def create(uid:String , screenName:String , createdAt:String){
-def create(screenName:String){
+def create(uid:String , screenName:String , createdAt:String){
     DB.withConnection { implicit c =>
-      SQL("insert into user (screenName) values ({screenName})").on(
-        'screenName -> screenName
+      SQL("insert into user (uid , screenName , createdAt) values ({uid} , {screenName} , {createdAt} )").on(
+        'uid -> uid,
+        'screenName -> screenName,
+        'createdAt -> createdAt
       ).executeUpdate()
     }
 
@@ -37,8 +39,10 @@ def create(screenName:String){
 
   val user = {
     get[Long]("id") ~
-      get[String]("screenName") map {
-      case id~screenName => User(id, screenName)
+      get[String]("uid") ~
+      get[String]("screenName") ~
+      get[String]("createdAt") map {
+      case id~uid~screenName~createdAt => User(id, uid , screenName , createdAt)
     }
   }
 
