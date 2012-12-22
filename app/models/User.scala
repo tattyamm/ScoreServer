@@ -25,13 +25,11 @@ object User {
     SQL("select * from user").as(user *)
   }
 
-//  def create(uid:String , screenName:String , createdAt:String){
-def create(uid:String , screenName:String , createdAt:String){
+def create(uid:String , screenName:String ){
     DB.withConnection { implicit c =>
-      SQL("insert into user (uid , screenName , createdAt) values ({uid} , {screenName} , {createdAt} )").on(
+      SQL("insert into user (uid , screenName ) values ({uid} , {screenName}  )").on(
         'uid -> uid,
-        'screenName -> screenName,
-        'createdAt -> createdAt
+        'screenName -> screenName
       ).executeUpdate()
     }
 

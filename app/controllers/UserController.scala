@@ -33,16 +33,19 @@ object UserController extends Controller {
 
       //パラメーター受け取り
       val form = Form(
-        "screenName" -> nonEmptyText //複数の場合はtupleにするっぽい
+        tuple(
+          "uid" ->  nonEmptyText,
+          "screenName" -> nonEmptyText
+        )
       )
-      val screenName = form.bindFromRequest.fold(
+      val (uid , screenName) = form.bindFromRequest.fold(
         errors => throw new IllegalArgumentException("投稿メッセージが受け取れませんでした"),
-        screenName => {
-          screenName
+        anyData => {
+          anyData
         }
       )
 
-      User.create("uid!" , screenName , "createdAt!")
+      User.create(uid , screenName )
       Ok("UserController register : screenName = " + screenName)
 
   }
