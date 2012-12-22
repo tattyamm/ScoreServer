@@ -15,6 +15,7 @@ import libs.oauth.RequestToken
 import libs.oauth.ServiceInfo
 
 import models.User
+import java.util.UUID
 
 
 /**
@@ -33,17 +34,16 @@ object UserController extends Controller {
 
       //パラメーター受け取り
       val form = Form(
-        tuple(
-          "uid" ->  nonEmptyText,
           "screenName" -> nonEmptyText
-        )
       )
-      val (uid , screenName) = form.bindFromRequest.fold(
+      val screenName = form.bindFromRequest.fold(
         errors => throw new IllegalArgumentException("投稿メッセージが受け取れませんでした"),
         anyData => {
           anyData
         }
       )
+
+      val uid = UUID.randomUUID().toString
 
       User.create(uid , screenName )
       Ok("UserController register : screenName = " + screenName)
