@@ -1,22 +1,18 @@
 package controllers
 
 import play.api._
-import play.api.data._
-import play.api.data.Forms._
 import mvc._
 
-import play.api._
 import play.api.data._
 import play.api.data.Forms._
-import libs.oauth.ConsumerKey
-import libs.oauth.OAuth
-import libs.oauth.OAuthCalculator
-import libs.oauth.RequestToken
-import libs.oauth.ServiceInfo
 
 import models.User
-import java.util.UUID
-import annotation.tailrec
+
+import play.api._
+import play.api.mvc._
+import play.api.libs.json._
+import models._
+import models.User.UserModelFormat
 
 
 /**
@@ -49,12 +45,11 @@ object UserController extends Controller {
           anyData
         }
       )
-      val uid = User.createUid()
 
-      User.create(uid, screenName)
+      //User新規登録
+      val newUser = User.create(screenName)
 
-      //TODO 最終的にUserModelのJSONを返したい
-      Ok("UserController register : screenName = " + screenName)
+      Ok( UserModelFormat.writes(newUser))
 
   }
 }

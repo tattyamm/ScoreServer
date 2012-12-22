@@ -9,12 +9,17 @@ import anorm.SqlParser._
 import annotation.tailrec
 import java.util.UUID
 
+import play.api.libs.json._
+import play.api.libs.json.JsObject
+import play.api.libs.json.JsString
+
+
 /**
  * User Model
  *
  * DB操作方法 https://github.com/playframework-ja/Play20/wiki/ScalaAnorm
  *
- * iOSの場合、[[UIDevice c u r r e n t D e v i c e ] i d e n t i f i e r F o r V e n d o r ] を と り あ え ず 想 定
+ * iOSの場合、identifierForVendorをとりあえず想定
  * （もちろん適当な値が投げられたら、適当な値が入る　cf http://akisute.com/2011/08/udiduiid.html ）
  * サーバーサイドでid発行の方が普通かな。（register叩くとユニークなuid(java.util.uidとか)を返し、以降はそれを使う。）
  */
@@ -32,7 +37,14 @@ object User {
       SQL("select * from user").as(user *)
   }
 
-  def create(uid: String, screenName: String) {
+  /**
+   * Userの新規登録をし、その結果のModelを返す
+   * TODO 失敗時は考慮していない
+   * @param screenName
+   * @return
+   */
+  def create(screenName: String): User = {
+    val uid = User.createUid()
     DB.withConnection {
       implicit c =>
         SQL("insert into user (uid , screenName ) values ({uid} , {screenName}  )").on(
@@ -41,6 +53,21 @@ object User {
         ).executeUpdate()
     }
 
+    //今回登録したユーザーを返す
+    selectUserByUID(uid)
+  }
+
+  /**
+   * uidからUserを返す。
+   * TODO 存在しないユーザーだった場合、エラーだった場合を考慮していない
+   * @param uid
+   * @return
+   */
+  def selectUserByUID(uid: String): User = DB.withConnection {
+    implicit c =>
+      SQL("select * from user where uid = {uid}").on(
+        'uid -> uid
+      ).as(user *).head //uidはuniqなので1人しか返ってこないはず
   }
 
   val user = {
@@ -52,12 +79,11 @@ object User {
     }
   }
 
-  def countByUID(uid:String): Int = DB.withConnection {
+  def countByUID(uid: String): Int = DB.withConnection {
     implicit c =>
-      val firstRow = SQL("select count(*) as c from user where uid = {uid}").on(
+      SQL("select count(*) from user where uid = {uid}").on(
         'uid -> uid
-      ).apply().head
-      firstRow[Long]("c").toInt
+      ).as(scalar[Long].single).toInt
   }
 
   /**
@@ -73,4 +99,35 @@ object User {
       uid
     }
   }
+
+
+  /**
+   * jsonとmodelの変換
+   * https://github.com/playframework-ja/Play20/wiki/ScalaJson
+   */
+  implicit object UserModelFormat extends Format[User] {
+    /*
+     * JsonからModelに変換
+     */
+    def reads(json: JsValue): User = User(
+      (json \ "id").as[Long],
+      (json \ "uid").as[String],
+      (json \ "screenName").as[String],
+      (json \ "createdAt").as[String]
+    )
+
+    /*
+     * ModelからJsonに変換
+     */
+    def writes(u: User): JsValue = JsObject(
+      List(
+        "id" -> JsString(u.id.toString),
+        "uid" -> JsString(u.uid),
+        "screenName" -> JsString(u.screenName),
+        "createdAt" -> JsString(u.createdAt)
+      )
+    )
+
+  }
+
 }
