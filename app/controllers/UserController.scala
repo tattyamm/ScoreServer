@@ -16,6 +16,7 @@ import libs.oauth.ServiceInfo
 
 import models.User
 import java.util.UUID
+import annotation.tailrec
 
 
 /**
@@ -23,29 +24,36 @@ import java.util.UUID
  */
 object UserController extends Controller {
 
+  /**
+   * ユーザー全件を返す
+   * @return
+   */
   def all = Action {
     Ok(views.html.user(User.all()))
   }
 
-
-
+  /**
+   * ユーザー登録
+   * @return
+   */
   def register = Action {
     implicit request =>
 
-      //パラメーター受け取り
+    //パラメーター受け取り
       val form = Form(
-          "screenName" -> nonEmptyText
+        "screenName" -> nonEmptyText
       )
       val screenName = form.bindFromRequest.fold(
-        errors => throw new IllegalArgumentException("投稿メッセージが受け取れませんでした"),
+        errors => throw new IllegalArgumentException("パラメータが正しく無いようです"),
         anyData => {
           anyData
         }
       )
+      val uid = User.createUid()
 
-      val uid = UUID.randomUUID().toString
+      User.create(uid, screenName)
 
-      User.create(uid , screenName )
+      //TODO 最終的にUserModelのJSONを返したい
       Ok("UserController register : screenName = " + screenName)
 
   }
