@@ -1,0 +1,19 @@
+@(users: List[User])
+
+@main("User list") {
+
+<h1>@users.size user(s)</h1>
+
+<ul>
+    @users.map { user =>
+    <li>
+        @user.screenName
+    </li>
+    }
+</ul>
+
+
+
+
+
+}

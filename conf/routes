@@ -11,10 +11,11 @@ GET     /ranking/today              controllers.RankingController.getRankingToda
 GET     /ranking/total              controllers.RankingController.getRankingTotal
 
 # User
-POST    /user/register              controllers.ScoreController.register
+GET     /user/all                   controllers.UserController.all
+POST    /user/register              controllers.UserController.register
 
 # Score
-POST    /score/register             controllers.UserController.register
+POST    /score/register             controllers.ScoreController.register
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
