@@ -1,16 +1,10 @@
 package controllers
 
-import play.api._
-import mvc._
 
 import play.api.data._
 import play.api.data.Forms._
 
-import models.User
-
-import play.api._
 import play.api.mvc._
-import play.api.libs.json._
 import models._
 import models.User.UserModelFormat
 
@@ -49,7 +43,7 @@ object UserController extends Controller {
       //User新規登録
       val newUser = User.create(screenName)
 
-      Ok( UserModelFormat.writes(newUser))
+      Ok(UserModelFormat.writes(newUser))
 
   }
 }
