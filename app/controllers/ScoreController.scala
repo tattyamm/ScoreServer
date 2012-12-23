@@ -36,22 +36,26 @@ object ScoreController extends Controller {
           "score" -> nonEmptyText
         )
       )
-      val (uid , score) = form.bindFromRequest.fold(
+      val (uid, score) = form.bindFromRequest.fold(
         errors => throw new IllegalArgumentException("パラメータが正しく無いようです"),
         anyData => {
           anyData
         }
       )
 
-      //Score新規登録
-      //TODo uidの存在確認
-      val newScore = if (User.countByUID(uid)==1){
-        Score.create(User.selectUserByUID(uid), score.toInt)
-      }else{
+      //TODO Scoreが前より低くないかとか、連続アクセスとか、そういうのを調べる
+
+      //Score登録
+      if (User.countByUID(uid) == 1) {
+        Score.register(User.selectUserByUID(uid), score.toInt)
+      } else {
         throw new IllegalAccessError("存在しないユーザーのようです")
       }
 
-      Ok(ScoreModelFormat.writes(newScore))
+      //TODO そのスコアが何位か確認
+
+      //TODO 現在のランキングをjsonで返す
+      Ok("スコア更新できたはず")
 
   }
 

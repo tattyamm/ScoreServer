@@ -2,6 +2,7 @@ package controllers
 
 import play.api._
 import play.api.mvc._
+import models.Score
 
 /**
  * Ranking controller
@@ -9,14 +10,14 @@ import play.api.mvc._
 object RankingController extends Controller{
 
   def getRankingWeekley = Action {
-    Ok(views.html.index("RankingController getRankingWeekley"))
+    Ok("RankingController getRankingWeekley")
   }
 
   def getRankingToday = Action {
-    Ok(views.html.index("RankingController getRankingToday"))
+    Ok("RankingController getRankingToday")
   }
 
   def getRankingTotal = Action {
-    Ok(views.html.index("RankingController getRankingTotal"))
+    Ok(views.html.score(Score.ranking()))
   }
 }
