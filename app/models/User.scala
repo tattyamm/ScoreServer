@@ -27,6 +27,15 @@ case class User(
 
 object User {
 
+  val user = {
+    get[Long]("id") ~
+      get[String]("uid") ~
+      get[String]("screenName") ~
+      get[String]("createdAt") map {
+      case id ~ uid ~ screenName ~ createdAt => User(id, uid, screenName, createdAt)
+    }
+  }
+
   def all(): List[User] = DB.withConnection {
     implicit c =>
       SQL("select * from user").as(user *)
@@ -63,15 +72,6 @@ object User {
       SQL("select * from user where uid = {uid}").on(
         'uid -> uid
       ).as(user *).head //uidはuniqなので1人しか返ってこないはず
-  }
-
-  val user = {
-    get[Long]("id") ~
-      get[String]("uid") ~
-      get[String]("screenName") ~
-      get[String]("createdAt") map {
-      case id ~ uid ~ screenName ~ createdAt => User(id, uid, screenName, createdAt)
-    }
   }
 
   def countByUID(uid: String): Int = DB.withConnection {

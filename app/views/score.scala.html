@@ -1,0 +1,17 @@
+@(scores: List[Score])
+
+@main("Score list") {
+
+<h1>@scores.size score(s)</h1>
+
+<ul>
+    @scores.map { score =>
+    <li>
+        @score.id  , @score.uid , @score.screenName , @score.score , @score.createdAt
+    </li>
+    }
+</ul>
+
+
+
+}
