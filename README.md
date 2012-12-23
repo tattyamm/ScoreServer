@@ -1,6 +1,7 @@
 #ScoreServer
 
 ##概要
+* http://scoreserver.herokuapp.com/
 * ランキングとかスコアを記録するサーバーにしたい
 
 ##使い方
