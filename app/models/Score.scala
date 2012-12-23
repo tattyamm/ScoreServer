@@ -48,7 +48,22 @@ object Score {
       ).as(score *)
   }
 
-
+  //TODO ここ
+  def rankByUID(uid:String): Int = DB.withConnection {
+    implicit c =>
+      SQL(
+        """
+        select
+          (select count(id)
+          from score t2
+          where t2.score > t1.score) + 1 as ranking
+        from score  t1
+        where uid = {uid}
+        """
+      ).on(
+        'uid -> uid
+      ).as(scalar[Long].single).toInt
+  }
 
   /**
    * Scoreの新規登録または更新

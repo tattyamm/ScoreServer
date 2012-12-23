@@ -52,10 +52,11 @@ object ScoreController extends Controller {
         throw new IllegalAccessError("存在しないユーザーのようです")
       }
 
-      //TODO そのスコアが何位か確認
+      //順位確認
+      val rank = Score.rankByUID(uid)
 
       //TODO 現在のランキングをjsonで返す
-      Ok("スコア更新できたはず")
+      Ok("スコア更新できたはず 順位："+rank)
 
   }
 
