@@ -1,6 +1,7 @@
 package controllers
 
 import play.api._
+import libs.json.{JsString, JsObject}
 import play.api.data._
 import play.api.data.Forms._
 
@@ -15,7 +16,6 @@ object ScoreController extends Controller {
 
   /**
    * スコア全件を返す
-   * TODO 100件程度に制限する（sqlでlimit 100する）
    * @return
    */
   def all = Action {
@@ -55,8 +55,8 @@ object ScoreController extends Controller {
       //順位確認
       val rank = Score.rankByUID(uid)
 
-      //TODO 現在のランキングをjsonで返す
-      Ok("スコア更新できたはず 順位："+rank)
+      //現在のランキングをjsonで返す
+      Ok(JsObject(List("rank"->JsString(rank.toString))))
 
   }
 
