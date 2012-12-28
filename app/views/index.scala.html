@@ -1,7 +1,19 @@
 @(message: String)
 
-@main("Welcome to Play 2.0") {
-    
-    @play20.welcome(message)
-    
+@main("Index") {
+
+    <h1>Menu</h1>
+
+    <ul>
+        <li>
+            <a href="http://localhost:9000/ranking/total">Ranking</a>
+        </li>
+        <li>
+            <a href="http://localhost:9000/user/all">Users list</a>
+        </li>
+        <li>
+            <a href="http://localhost:9000/score/all">Score list</a>
+        </li>
+    </ul>
+
 }

@@ -6,16 +6,17 @@
 GET     /                           controllers.Application.index
 
 # Ranking
+GET     /ranking                    controllers.RankingController.getRankingTotal
 GET     /ranking/weekley            controllers.RankingController.getRankingWeekley
 GET     /ranking/today              controllers.RankingController.getRankingToday
-GET     /ranking/total              controllers.RankingController.getRankingTotal
 
 # User
-GET     /user/all                   controllers.UserController.all
+GET     /user                       controllers.UserController.all
+GET     /user.json                  controllers.UserController.alljson
 POST    /user/register              controllers.UserController.register
 
 # Score
-GET     /score/all                  controllers.ScoreController.all
+GET     /score                      controllers.ScoreController.all
 POST    /score/register             controllers.ScoreController.register
 
 # Map static resources from the /public folder to the /assets URL path
