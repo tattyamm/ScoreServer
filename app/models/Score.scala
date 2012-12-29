@@ -51,13 +51,18 @@ object Score {
       ).as(score *)
   }
 
+  /**
+   * ゲームIDユニークなList[Score]を返す
+   * TODO ゲームIDが2つ以上あると動かない...
+   * @return
+   */
   def games(): List[Score] = DB.withConnection {
     implicit c =>
       SQL("select * from score where gameId =  (select distinct gameId from score)")
         .as(score *)
   }
 
-  def rankByUID(uid:String): Int = DB.withConnection {
+  def rankByUID(uid:String , gameId:String): Int = DB.withConnection {
     implicit c =>
       SQL(
         """
@@ -66,10 +71,11 @@ object Score {
           from score t2
           where t2.score > t1.score) + 1 as ranking
         from score  t1
-        where uid = {uid}
+        where uid = {uid} and gameId = {gameId}
         """
       ).on(
-        'uid -> uid
+        'uid -> uid,
+        'gameId -> gameId
       ).as(scalar[Long].single).toInt
   }
 

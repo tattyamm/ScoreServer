@@ -1,22 +1,13 @@
-@(scores: List[Score])
 
 @main("Game list") {
 
-    <h1>@scores.size score(s)</h1>
+    <h1>Game list</h1>
 
-    <p>Game list / Score top</p>
 
     <ul>
-    @scores.map { score =>
         <li>
-            <a href="./ranking/@score.gameId">@score.gameId</a>
-            <br>
-            @score.id  , @score.uid , @score.screenName , @score.score , @score.gameId , @score.createdAt
-
+            <a href="./ranking/game01">game01</a>
         </li>
-    }
     </ul>
-
-
 
 }

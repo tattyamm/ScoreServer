@@ -17,8 +17,9 @@ object RankingController extends Controller{
     Ok("RankingController getRankingToday")
   }
 
+  //TODO ゲーム一覧の取得
   def getRankingList = Action {
-    Ok(views.html.gameList(Score.games()))
+    Ok(views.html.gameList())
   }
 
   def getRankingTotal(gameId:String) = Action {

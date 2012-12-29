@@ -8,19 +8,20 @@
 * 名前を送るとuidが返る
 * POST
 
-        http://localhost:9000/user/register -X POST -d "screenName=なまえ"
+        curl http://localhost:9000/user/register -X POST -d "screenName=YourName"
 
 * 戻り値
 
-        {"id":"2","uid":"8ee37d91-dd5d-4fb7-9e25-91b2e2056190","screenName":"なまえ","createdAt":"2012-12-23 19:45:55.516"}
+        {"id":"2","uid":"7a17d693-a1e8-48f0-b9e4-01fe8a02f986","screenName":"YoutName","createdAt":"2012-12-29 17:21:51.771"}
 
 ### スコア登録
+* ゲームIDへの対応は不完全で、常に同じIDを使わないと、バグる可能性がある（！）
 * ユーザーごとに最大値が記録される
 * あらかじめユーザー登録している必要がある
 * 順位が返る
 
-        curl http://localhost:9000/score/register -X POST -d "score=1234" -d "uid=8ee37d91-dd5d-4fb7-9e25-91b2e2056190"
 
+        curl http://localhost:9000/score/register -X POST -d "score=1234" -d "uid=7a17d693-a1e8-48f0-b9e4-01fe8a02f986" -d "gameId=game01"
 * 戻り値
 
         {"rank":"1"}

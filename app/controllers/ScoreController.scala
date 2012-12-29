@@ -54,7 +54,7 @@ object ScoreController extends Controller {
       }
 
       //順位確認
-      val rank = Score.rankByUID(uid)
+      val rank = Score.rankByUID(uid,gameId)
 
       //現在のランキングをjsonで返す
       Ok(JsObject(List("rank"->JsString(rank.toString))))
