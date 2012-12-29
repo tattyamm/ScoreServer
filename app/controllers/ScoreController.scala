@@ -33,10 +33,11 @@ object ScoreController extends Controller {
       val form = Form(
         tuple(
           "uid" -> nonEmptyText,
-          "score" -> nonEmptyText
+          "score" -> nonEmptyText,
+          "gameId" -> nonEmptyText
         )
       )
-      val (uid, score) = form.bindFromRequest.fold(
+      val (uid, score, gameId) = form.bindFromRequest.fold(
         errors => throw new IllegalArgumentException("パラメータが正しく無いようです"),
         anyData => {
           anyData
@@ -47,7 +48,7 @@ object ScoreController extends Controller {
 
       //Score登録
       if (User.countByUID(uid) == 1) {
-        Score.register(User.selectUserByUID(uid), score.toInt)
+        Score.register(User.selectUserByUID(uid), score.toInt , gameId.toString)
       } else {
         throw new IllegalAccessError("存在しないユーザーのようです")
       }

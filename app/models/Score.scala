@@ -21,6 +21,7 @@ case class Score(
                   uid: String,
                   screenName: String,
                   score: Int,
+                  gameId: String ,
                   createdAt: String
                   )
 
@@ -31,8 +32,9 @@ object Score {
       get[String]("uid") ~
       get[String]("screenName") ~
       get[Int]("score") ~
+      get[String]("gameId") ~
       get[String]("createdAt") map {
-      case id ~ uid ~ screenName ~ score ~ createdAt => Score(id, uid, screenName, score, createdAt)
+      case id ~ uid ~ screenName ~ score ~ gameId ~createdAt => Score(id, uid, screenName, score, gameId, createdAt)
     }
   }
 
@@ -41,14 +43,20 @@ object Score {
       SQL("select * from score").as(score *)
   }
 
-  def ranking(limit:Int = 50): List[Score] = DB.withConnection {
+  def ranking(gameId:String , limit:Int = 50): List[Score] = DB.withConnection {
     implicit c =>
-      SQL("select * from score  order by score desc limit {limit}").on(
-        'limit -> limit
+      SQL("select * from score where gameId = {gameId} order by score desc limit {limit}").on(
+        'limit -> limit,
+        'gameId -> gameId
       ).as(score *)
   }
 
-  //TODO ここ
+  def games(): List[Score] = DB.withConnection {
+    implicit c =>
+      SQL("select * from score where gameId =  (select distinct gameId from score)")
+        .as(score *)
+  }
+
   def rankByUID(uid:String): Int = DB.withConnection {
     implicit c =>
       SQL(
@@ -72,33 +80,35 @@ object Score {
    * @param score
    * @return
    */
-  def register(user:User , score:Int) = {
+  def register(user:User , score:Int , gameId:String) = {
     if (countByUID(user.uid) == 1){
       //更新
-      update(user,score)
+      update(user,score,gameId)
     }else{
       //新規
-      create(user,score)
+      create(user,score,gameId)
     }
   }
 
 
-  def create(user: User, score: Int) = {
+  def create(user: User, score: Int, gameId:String) = {
     DB.withConnection {
       implicit c =>
-        SQL("insert into score (uid , score , screenName) values ({uid} , {score} ,{screenName} )").on(
+        SQL("insert into score (uid , score , gameId , screenName) values ({uid} , {score} , {gameId} , {screenName} )").on(
           'uid -> user.uid,
           'score -> score,
+          'gameId -> gameId,
           'screenName -> user.screenName
         ).executeUpdate()
     }
   }
 
-  def update(user: User, score: Int) = {
+  def update(user: User, score: Int, gameId:String) = {
     DB.withConnection {
       implicit c =>
-        SQL("update score set score = {score} where uid = {uid}").on(
+        SQL("update score set score = {score} , gameId = {gameId} where uid = {uid}").on(
           'uid -> user.uid,
+          'gameId -> gameId,
           'score -> score
         ).executeUpdate()
     }
@@ -139,6 +149,7 @@ object Score {
       (json \ "uid").as[String],
       (json \ "screenName").as[String],
       (json \ "score").as[Int],
+      (json \ "gameId").as[String],
       (json \ "createdAt").as[String]
     )
 
@@ -151,6 +162,7 @@ object Score {
         "uid" -> JsString(s.uid),
         "screenName" -> JsString(s.screenName),
         "score" -> JsString(s.score.toString),
+        "gameId" -> JsString(s.gameId.toString),
         "createdAt" -> JsString(s.createdAt)
       )
     )

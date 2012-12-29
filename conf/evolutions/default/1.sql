@@ -15,7 +15,8 @@ CREATE TABLE score (
     id integer NOT NULL DEFAULT nextval('score_id_seq'),
     uid varchar(36) NOT NULL,
     screenName varchar(50) NOT NULL,
-    score Int NOT NULL,
+    score Int NOT NULL, 
+    gameId varchar(50) NOT NULL,
     createdAt varchar(23) NOT NULL DEFAULT current_timestamp
 );
 
@@ -24,3 +25,5 @@ CREATE TABLE score (
 
 DROP TABLE user;
 DROP SEQUENCE user_id_seq;
+DROP TABLE score;
+DROP SEQUENCE score_id_seq;

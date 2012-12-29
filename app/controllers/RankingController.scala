@@ -17,7 +17,11 @@ object RankingController extends Controller{
     Ok("RankingController getRankingToday")
   }
 
-  def getRankingTotal = Action {
-    Ok(views.html.score(Score.ranking()))
+  def getRankingList = Action {
+    Ok(views.html.gameList(Score.games()))
+  }
+
+  def getRankingTotal(gameId:String) = Action {
+    Ok(views.html.score(Score.ranking(gameId)))
   }
 }

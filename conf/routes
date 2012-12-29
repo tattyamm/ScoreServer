@@ -6,7 +6,8 @@
 GET     /                           controllers.Application.index
 
 # Ranking
-GET     /ranking                    controllers.RankingController.getRankingTotal
+GET     /ranking                    controllers.RankingController.getRankingList
+GET     /ranking/$gameId<[a-zA-Z0-9]+>  controllers.RankingController.getRankingTotal(gameId:String)
 GET     /ranking/weekley            controllers.RankingController.getRankingWeekley
 GET     /ranking/today              controllers.RankingController.getRankingToday
 
