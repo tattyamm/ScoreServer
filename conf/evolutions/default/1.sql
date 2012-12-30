@@ -7,7 +7,7 @@ CREATE TABLE account (
     id integer NOT NULL DEFAULT nextval('account_id_seq'),
     uid varchar(36) NOT NULL,
     screenName varchar(50) NOT NULL,
-    createdAt varchar(23) NOT NULL DEFAULT current_timestamp
+    createdAt varchar(50) NOT NULL DEFAULT current_timestamp
 );
 
 CREATE SEQUENCE score_id_seq;
@@ -17,7 +17,7 @@ CREATE TABLE score (
     screenName varchar(50) NOT NULL,
     score Int NOT NULL, 
     gameId varchar(50) NOT NULL,
-    createdAt varchar(23) NOT NULL DEFAULT current_timestamp
+    createdAt varchar(50) NOT NULL DEFAULT current_timestamp
 );
 
 
