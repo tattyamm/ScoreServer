@@ -40,7 +40,9 @@
 * エラー時にplayの画面ではなくjsonを返す
 * 情報の削除、修正をするAPIの作成
 * uid再発行機構
-* http://scoreserver.herokuapp.com/ で動かす
+
+##一応
+* http://scoreserver.herokuapp.com/ で動いている
 
 ##作者
 * [@tattyamm](https://twitter.com/tattyamm)
