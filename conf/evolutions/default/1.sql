@@ -2,9 +2,9 @@
 
 # --- !Ups
 
-CREATE SEQUENCE user_id_seq;
-CREATE TABLE user (
-    id integer NOT NULL DEFAULT nextval('user_id_seq'),
+CREATE SEQUENCE account_id_seq;
+CREATE TABLE account (
+    id integer NOT NULL DEFAULT nextval('account_id_seq'),
     uid varchar(36) NOT NULL,
     screenName varchar(50) NOT NULL,
     createdAt varchar(23) NOT NULL DEFAULT current_timestamp

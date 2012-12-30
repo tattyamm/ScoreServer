@@ -38,7 +38,7 @@ object User {
 
   def all(): List[User] = DB.withConnection {
     implicit c =>
-      SQL("select * from user").as(user *)
+      SQL("select * from account").as(user *)
   }
 
   /**
@@ -51,7 +51,7 @@ object User {
     val uid = User.createUid()
     DB.withConnection {
       implicit c =>
-        SQL("insert into user (uid , screenName ) values ({uid} , {screenName}  )").on(
+        SQL("insert into account (uid , screenName ) values ({uid} , {screenName}  )").on(
           'uid -> uid,
           'screenName -> screenName
         ).executeUpdate()
@@ -69,14 +69,14 @@ object User {
    */
   def selectUserByUID(uid: String): User = DB.withConnection {
     implicit c =>
-      SQL("select * from user where uid = {uid}").on(
+      SQL("select * from account where uid = {uid}").on(
         'uid -> uid
       ).as(user *).head //uidはuniqなので1人しか返ってこないはず
   }
 
   def countByUID(uid: String): Int = DB.withConnection {
     implicit c =>
-      SQL("select count(*) from user where uid = {uid}").on(
+      SQL("select count(*) from account where uid = {uid}").on(
         'uid -> uid
       ).as(scalar[Long].single).toInt
   }
