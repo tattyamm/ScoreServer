@@ -1,6 +1,6 @@
-@(scores: List[Score],gameId:String)
+@(scores: List[Score], gameId: String)
 
-@main("Score list [@gameId]") {
+@main("Score list [" + gameId + "]") {
 
     <h1>@gameId scores</h1>
     <p>member: @scores.size</p>
