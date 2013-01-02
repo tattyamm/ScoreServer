@@ -9,14 +9,14 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Time</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
         @users.map { user =>
             <tr>
                 <th>@user.screenName</th>
-                <th>@user.createdAt</th>
+                <th>@user.createdAt.slice(0,10)</th>
             </tr>
         }
         <tbody>

@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Game</th>
                 <th>Score</th>
                 <th>Date</th>
             </tr>
@@ -18,7 +17,6 @@
         @scores.map { user =>
             <tr>
                 <th>@user.screenName</th>
-                <th>@user.gameId</th>
                 <th>@user.score</th>
                 <th>@user.createdAt.slice(0,10)</th>
             </tr>

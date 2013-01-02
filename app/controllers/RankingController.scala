@@ -23,6 +23,6 @@ object RankingController extends Controller {
   }
 
   def getRankingTotal(gameId: String) = Action {
-    Ok(views.html.score(Score.ranking(gameId) , gameId))
+    Ok(views.html.ranking(Score.ranking(gameId) , gameId))
   }
 }
