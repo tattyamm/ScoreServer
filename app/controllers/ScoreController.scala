@@ -19,7 +19,7 @@ object ScoreController extends Controller {
    * @return
    */
   def all = Action {
-    Ok(views.html.score(Score.all()))
+    Ok(views.html.score(Score.all(), "All"))
   }
 
   /**
@@ -48,16 +48,16 @@ object ScoreController extends Controller {
 
       //Score登録
       if (User.countByUID(uid) == 1) {
-        Score.register(User.selectUserByUID(uid), score.toInt , gameId.toString)
+        Score.register(User.selectUserByUID(uid), score.toInt, gameId.toString)
       } else {
         throw new IllegalAccessError("存在しないユーザーのようです")
       }
 
       //順位確認
-      val rank = Score.rankByUID(uid,gameId)
+      val rank = Score.rankByUID(uid, gameId)
 
       //現在のランキングをjsonで返す
-      Ok(JsObject(List("rank"->JsString(rank.toString))))
+      Ok(JsObject(List("rank" -> JsString(rank.toString))))
 
   }
 

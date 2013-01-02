@@ -7,7 +7,7 @@ import models.Score
 /**
  * Ranking controller
  */
-object RankingController extends Controller{
+object RankingController extends Controller {
 
   def getRankingWeekley = Action {
     Ok("RankingController getRankingWeekley")
@@ -22,7 +22,7 @@ object RankingController extends Controller{
     Ok(views.html.gameList())
   }
 
-  def getRankingTotal(gameId:String) = Action {
-    Ok(views.html.score(Score.ranking(gameId)))
+  def getRankingTotal(gameId: String) = Action {
+    Ok(views.html.score(Score.ranking(gameId) , gameId))
   }
 }

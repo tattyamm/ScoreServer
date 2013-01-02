@@ -17,6 +17,7 @@ GET     /user.json                  controllers.UserController.alljson
 POST    /user/register              controllers.UserController.register
 
 # Score
+#  Score.allは将来的に廃止（サービスとして不要。デバッグとして使う）
 GET     /score                      controllers.ScoreController.all
 POST    /score/register             controllers.ScoreController.register
 
